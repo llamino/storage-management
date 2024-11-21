@@ -42,7 +42,9 @@ class ProductListView(APIView):
 
         product_serializer = ProductSerializer(products, many=True)
         return Response(data=product_serializer.data, status=status.HTTP_200_OK)
-
+class test(APIView):
+    def get(self, request):
+        Response(status=status.HTTP_200_OK)
 class CreateProductRating(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request, product_id):

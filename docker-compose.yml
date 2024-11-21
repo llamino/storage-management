@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  recommendation_management:
+    build:
+      context: ./recommendation_service
+    environment:
+      - DATABASE_URL=mysql://root:1230@mysql/recommendation_db
+      - MONGODB_URL=mongodb://mongodb:27017/recommendation_mongo_db
+    depends_on:
+      - mysql
+      - mongodb
+    ports:
+      - "8001:8000"
+    command: celery -A recommendation_service.tasks worker
+
+  warehouse_service:
+    build:
+      context: ./warehouse_service
+    environment:
+      - DATABASE_URL=mysql://root:password@mysql/warehouse_db
+      - MONGODB_URL=mongodb://mongodb:27017/warehouse_mongo_db
+    depends_on:
+      - mysql
+      - mongodb
+    ports:
+      - "8002:8000"
+    command: celery -A warehouse_service.tasks worker
+
+  order_service:
+    build:
+      context: ./order_service
+    environment:
+      - DATABASE_URL=mysql://root:password@mysql/order_db
+    depends_on:
+      - mysql
+    ports:
+      - "8003:8000"
+
+  user_service:
+    build:
+      context: ./user_service
+    environment:
+      - DATABASE_URL=mysql://root:password@mysql/user_db
+    depends_on:
+      - mysql
+    ports:
+      - "8004:8000"
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  mongodb:
+    image: mongo:5.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+volumes:
+  mysql_data:
+  mongo_data:

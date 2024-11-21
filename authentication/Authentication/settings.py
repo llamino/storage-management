@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt'
     'accounts.apps.AccountsConfig',
 ]
 
@@ -80,7 +81,7 @@ WSGI_APPLICATION = 'Authentication.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'auth',  # نام دیتابیس
+        'NAME': 'user_management',  # نام دیتابیس
         'USER': 'root',  # نام کاربری MySQL
         'PASSWORD': 'Am13810420',  # رمز عبور MySQL
         'HOST': '127.0.0.1',  # اگر از سرور ریموت استفاده می‌کنید، آدرس سرور را قرار دهید

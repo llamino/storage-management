@@ -1,5 +1,5 @@
 from django.db import models
-from pip._vendor.rich.color import Color
+
 
 
 
@@ -19,9 +19,7 @@ class ColorSupplier(models.Model):
 # Create your models here.
 class ProductInSupplier(models.Model):
     name = models.CharField(max_length=100)
-    weight = models.IntegerField()
     content = models.TextField()
-    price = models.IntegerField()
     categories = models.ManyToManyField(Category)
     def __str__(self):
         return self.name
@@ -40,5 +38,7 @@ class InventoryProductInSupplier(models.Model):
     stock = models.IntegerField()
     colors = models.ManyToManyField(ColorSupplier)
     sizes = models.ManyToManyField(SizeSuppler)
+    weight = models.IntegerField()
+    price = models.IntegerField()
     def __str__(self):
         return f'{self.supplier} - {self.product} - {self.stock}'

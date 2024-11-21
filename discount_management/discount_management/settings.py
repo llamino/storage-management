@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'discount.apps.DiscountConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

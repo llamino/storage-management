@@ -26,21 +26,24 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/')
     description = models.TextField()
     stock = models.IntegerField()
-    weight = models.FloatField()
     score = models.IntegerField()
-    price = models.FloatField()
-    colors = models.ManyToManyField(Color, blank=True, null=True, related_name='products')
-    sizes = models.ManyToManyField(size ,blank=True, null=True, related_name='products')
-    categories = models.ManyToManyField(Category, blank=True, null=True, related_name='products')
-
+    categories = models.ManyToManyField(Category, related_name='products')
     def save(self, *args, **kwargs):
         is_update = self.pk is not None
         super().save(*args, **kwargs)
         event_type = 'updated' if is_update else 'created'
         send_product_event({'id': self.id, 'name': self.name, 'price': self.price}, event_type)
-
     def __str__(self):
         return self.name
+
+class ProductProperty(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    size = models.ForeignKey(Size, on_delete=models.CASCADE, related_name='properties')
+    color = models.ForeignKey(Color, on_delete=models.CASCADE, related_name='properties')
+    price = models.FloatField()
+    weight = models.FloatField()
+    def __str__(self):
+        return f'{self.product.name} properties'
 
 
 class Comment(models.Model):
