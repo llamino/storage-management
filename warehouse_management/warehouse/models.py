@@ -4,7 +4,7 @@ from django.utils.timezone import now
 from django.db import models
 
 class Warehouse(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, primary_key=True)
     address = models.CharField(max_length=100)
     date_of_establishment = models.DateField(auto_now_add=True)
     is_full = models.BooleanField(default=False)
@@ -52,6 +52,7 @@ class Inventory(models.Model):
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE, related_name='inventories')
     product_id = models.IntegerField() # foreign key from ProductProperty table in the Product service
     stock = models.IntegerField()
+
 class PurchaseOrderFromSupplier(models.Model):
     supplier_id = models.IntegerField() # foreign key from Supplier table in the supplier service
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE, related_name='suppliers')

@@ -1,5 +1,4 @@
 from django.db import models
-from setuptools._distutils._collections.RangeMap import Item
 
 
 
@@ -15,7 +14,7 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    product = models.IntegerField()
+    product_id = models.IntegerField() #forgen key from propery table in the product_service
     product_price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField(default=1)
 

@@ -1,8 +1,5 @@
 from django.db import models
 
-
-
-
 class Category(models.Model):
     name = models.CharField(max_length=100)
     def __str__(self):
@@ -36,8 +33,8 @@ class InventoryProductInSupplier(models.Model):
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
     product = models.ForeignKey(ProductInSupplier, on_delete=models.CASCADE)
     stock = models.IntegerField()
-    colors = models.ManyToManyField(ColorSupplier)
-    sizes = models.ManyToManyField(SizeSuppler)
+    colors = models.ForeignKey(ColorSupplier, on_delete=models.SET_NULL, null=True)
+    sizes = models.ForeignKey(SizeSuppler, on_delete=models.SET_NULL, null=True)
     weight = models.IntegerField()
     price = models.IntegerField()
     def __str__(self):

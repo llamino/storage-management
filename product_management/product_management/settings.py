@@ -81,10 +81,20 @@ WSGI_APPLICATION = 'product_management.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'product_management',  # نام دیتابیس
+        'USER': 'root',  # نام کاربری MySQL
+        'PASSWORD': 'Am13810420',  # رمز عبور MySQL
+        'HOST': '127.0.0.1',  # اگر از سرور ریموت استفاده می‌کنید، آدرس سرور را قرار دهید
+        'PORT': '3306',  # پورت MySQL (به طور پیش‌فرض 3306)
     }
 }
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     ),
+# }
 
 
 # Password validation
@@ -121,12 +131,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# آدرس URL برای دسترسی به فایل‌های رسانه‌ای
-MEDIA_URL = 'media/'
-
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
