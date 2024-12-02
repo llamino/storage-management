@@ -12,7 +12,7 @@ class Discount(models.Model):
         ordering= ['-discount_percent']
 
 class ProductDiscount(Discount):  #this class is discount per product that define in the product service
-    product_id = models.CharField(unique=True) #this field represent product name.
+    product_id = models.CharField(max_length= 40, default=True) #this field represent product name.
 
 
 
@@ -25,5 +25,5 @@ class CategoryDiscount(Discount):
 
 class UserDiscount(models.Model):
     discount_per_category = models.ForeignKey(CategoryDiscount, on_delete=models.CASCADE)
-    user_id = models.CharField()
+    user_id = models.CharField(max_length=50)
 # Create your models here.

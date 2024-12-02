@@ -1,20 +1,33 @@
+# account/admin.py
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
-from django.utils.html import format_html
+from django.contrib.auth.forms import UserCreationForm
 
+from .models import User, Profile
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+
+# class CustomUserCreationForm(UserCreationForm):
+#     pass
 class CustomUserAdmin(UserAdmin):
-    model = CustomUser
-    fieldsets = UserAdmin.fieldsets + (
-        ('Additional Info', {
-            'fields': ('profile_image', 'phone_number', 'national_code'),
+    # add_form = CustomUserCreationForm
+    model = User
+    list_display = ('email', 'is_active', 'is_superuser', 'is_staff')
+    list_filter = ('email', 'is_superuser', 'is_active')
+    search_fields = ('email',)
+    ordering = ('email',)
+    fieldsets = (
+        ("Authentication", {'fields': ('email', 'password')}), #نام گذاری دل به خواه است
+        ("permissions", {'fields': ('is_active', 'is_superuser', 'is_staff')}),
+        # ("group permissions", {'fields': ('group', 'user_permissions')}),
+        ("important dates", {'fields': ('last_login',)}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'password1', 'password2', 'is_active', 'is_superuser', 'is_staff')
         }),
     )
-    list_display = ['username', 'email', 'phone_number', 'national_code', 'image_preview']
-    def image_preview(self, obj):
-        if obj.profile_image:
-            return format_html('<img src="{}" style="width: 50px; height: 50px;" />', obj.profile_image.url)
-        return "No Image"
 
-    image_preview.short_description = "Profile Image"
-admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(User, CustomUserAdmin)
+admin.site.register(Profile)
